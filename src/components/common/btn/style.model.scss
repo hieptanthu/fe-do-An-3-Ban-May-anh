@@ -1,0 +1,55 @@
+// Define button styles
+@mixin button-style($bg-color, $shadow-color) {
+  background: $bg-color;
+  box-shadow: 0 0 20px $shadow-color;
+}
+
+// Define hover effect
+@mixin button-hover($shadow-color) {
+  &:hover {
+    box-shadow: 
+      0 0 5px $shadow-color,
+      0 0 20px $shadow-color,
+      0 0 45px $shadow-color,
+      0 0 95px $shadow-color;
+  }
+}
+
+// Apply styles for different button variants
+.shadow_btn {
+  padding: 12.5px 30px;
+  border: none;
+  font-size: 17px;
+  color: #fff;
+  border-radius: 100px;
+  letter-spacing: 4px;
+  font-weight: 700;
+  text-transform: uppercase;
+  transition: 0.5s;
+  transition-property: box-shadow;
+
+  // Success button
+  &.BtnSuccess {
+    @include button-style(var(--success-color), var(--success-color));
+    @include button-hover(var(--success-color));
+  }
+
+  // Primary button
+  &.BtnPrimary {
+    @include button-style(var(--primary-color),var(--primary-color));
+    @include button-hover(var(--primary-color));
+  }
+
+  // Warning button
+  &.BtnWarning {
+    @include button-style(var(--warning-color), var(--warning-color));
+    @include button-hover(var(--warning-color));
+  }
+
+  // Danger button
+  &.BtnDanger {
+    @include button-style(var(--danger-color), var(--danger-color));
+    @include button-hover(var(--danger-color));
+  }
+}
+
