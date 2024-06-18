@@ -1,0 +1,44 @@
+.single-comment {
+    margin: 30px 0;
+
+
+    .content h4 {
+        color: #333;
+        font-size: 16px;
+        font-weight: 500;
+        margin-bottom: 10px;
+        display: inline-block;
+        margin-bottom: 18px;
+        text-transform: capitalize;
+
+        span {
+            display: inline-block;
+            font-size: 13px;
+            color: #8D8D8D;
+            margin: 0;
+            font-weight: 400;
+            text-transform: capitalize;
+            display: block;
+            margin-top: 5px;
+        }
+
+        .btn {
+            display: inline-block;
+            color: #666;
+            font-weight: 400;
+            color: #6a6a6a;
+            border-radius: 4px;
+            text-transform: capitalize;
+            font-size: 14px;
+            background: transparent;
+            padding: 0;
+        }
+    }
+
+}
+
+
+.active{
+
+    color: #ffc107;
+  }

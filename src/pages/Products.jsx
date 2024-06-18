@@ -5,18 +5,21 @@ import Loading from "../components/common/Loading";
 import { useLocation } from "react-router-dom";
 import Btn from "../components/common/btn";
 import _isEqual from "lodash/isEqual";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate,useParams } from "react-router-dom";
 import productApi from "../api/productApi";
 import "../components/GlobalStyles/style.scss";
 import CartProduct from "../components/common/CartProduct";
+import ReactPaginate from "react-paginate";
 
 function Products() {
   const { state } = useLocation();
+  console.log(state)
   const [Trademarks, setTrademarks] = useState([]);
   const [Categories, setCategories] = useState([]);
   const [txtFind, setTxtFinData] = useState({});
   const [Products, setProducts] = useState([]);
-
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
   const setDataFind = (key, data, e) => {
     if (e != null) {
       e.preventDefault();
@@ -34,7 +37,7 @@ function Products() {
   };
 
   useEffect(() => {
-    if (state.categoryId) {
+    if (state && state.categoryId) {
       setDataFind(
         "categoryId",
         [state.categoryId[state.categoryId.length - 1]],
@@ -42,7 +45,7 @@ function Products() {
       );
     }
 
-    if (state.TrademarkId) {
+    if (state && state.TrademarkId) {
       setDataFind("TrademarkId", state.TrademarkId, null);
     }
 
@@ -50,19 +53,35 @@ function Products() {
       const dataOutTrademarks = await TrademarkApi.get();
 
       let dataOutCategories;
-     
-        dataOutCategories = await CategoryApi.getById(state.categoryId || []);
-      
+
+      if (state && state.categoryId) {
+        dataOutCategories = await CategoryApi.getById(state.categoryId);
+      }
 
       if (dataOutTrademarks.success) {
         setTrademarks(dataOutTrademarks.dataOut);
       }
       if (
+        dataOutCategories &&
         dataOutCategories.success &&
         dataOutCategories.Categories &&
         dataOutCategories.Categories.childCategory
       ) {
         if (dataOutCategories.Categories.childCategory.length > 0) {
+          let list = [];
+
+          dataOutCategories.Categories.childCategory.forEach((item) => {
+            if (item.childCategory) {
+              item.childCategory.forEach((element) => {
+                list.push(element._id);
+              });
+            }
+            list.push(item._id);
+          });
+
+          setDataFind("categoryId", list, null);
+        }
+         if (dataOutCategories.Categories.childCategory.length > 0) {
           let list = [];
 
           dataOutCategories.Categories.childCategory.forEach((item) => {
@@ -85,16 +104,30 @@ function Products() {
   }, [state]);
 
   useEffect(() => {
+    
     const callProduct = async () => {
       const data = await productApi.get(txtFind);
 
       if (data.success) {
         setProducts(data.dataOut);
+        setTotalPages(data.totalPages);
       }
     };
 
     callProduct();
   }, [txtFind]);
+
+  const handlePageClick = (event) => {
+    setPage(event.selected);
+    setDataFind("Page", page, null);
+    console.log(`User requested page number `, event);
+  };
+
+  useEffect(() => {
+    
+    setDataFind("Page", page, null);
+
+  }, [page]);
 
   return (
     <>
@@ -124,7 +157,7 @@ function Products() {
               <div className="shop-sidebar">
                 {/* <!-- Single Widget --> */}
                 <div className="single-widget category">
-                  <h3 className="title">Cateory</h3>
+                  <h3 className="title">Category</h3>
                   <ul className="categor-list" style={{ overflow: "auto" }}>
                     {Categories.length === 0 ? (
                       <Loading />
@@ -133,8 +166,6 @@ function Products() {
                         return (
                           <li key={item._id}>
                             <Link
-                            
-
                               style={{
                                 color:
                                   txtFind.categoryId[0] == item._id
@@ -295,6 +326,19 @@ function Products() {
                   ))
                 )}
               </div>
+            </div>
+          </div>
+          <div className="row">
+            <div className="Pagination" style={{ color: "#333" }}>
+              <ReactPaginate
+                breakLabel="..."
+                nextLabel="next >"
+                onPageChange={handlePageClick}
+                pageRangeDisplayed={page}
+                pageCount={totalPages}
+                previousLabel="< previous"
+                renderOnZeroPageCount={null}
+              />
             </div>
           </div>
         </div>

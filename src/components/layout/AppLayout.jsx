@@ -1,47 +1,74 @@
 import { Outlet, useNavigate } from "react-router-dom";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import authUtils from "../../utils/authUtils";
-import { accState } from "../../constant/recoil";
+import { accState, ItemsCartState } from "../../constant/recoil";
 import { useRecoilState } from "recoil";
 import Loading from "../common/Loading";
 import Header from "./sections/user/Header";
 import Footer from "./sections/user/Footer";
-import { Container, Row ,ThemeProvider} from "react-bootstrap";
+import { Container, ThemeProvider } from "react-bootstrap";
+import GlobalStyles from "../GlobalStyles/index";
+
+import { socket } from "../../context/socket";
+
 export default function AppLayout() {
-  const navigate = useNavigate();
+  const [, setIsConnected] = useState(socket.connected);
   const [, setAcc] = useRecoilState(accState);
   const [loading, setLoading] = useState(true);
-
   useEffect(() => {
+    function onConnect() {
+      setIsConnected(true);
+    }
+
+    function onDisconnect() {
+      setIsConnected(false);
+    }
+
     const checkAuth = async () => {
-      const user = await authUtils.isAuthenticated();
-      setAcc(user.user);
-      if (user === false) {
-        // Use strict equality
-        navigate("/login");
-      } else {
+      try {
+        const user = await authUtils.isAuthenticated();
+
+        if (user) {
+          const data = user.user.user;
+          setAcc(data);
+          localStorage.setItem("_idUser", data._id);
+        }
+      } catch (error) {
+        console.error("Error checking authentication:", error);
+      } finally {
         setLoading(false);
+        
       }
     };
 
     checkAuth();
-  }, [navigate, setAcc]); // Include setAcc in the dependency array
+
+    socket.on("connect", onConnect);
+    socket.on("disconnect", onDisconnect);
+
+    return () => {
+      socket.off("connect", onConnect);
+      socket.off("disconnect", onDisconnect);
+    };
+  }, []);
 
   return loading ? (
     <Loading />
   ) : (
     <>
-      <ThemeProvider
-        breakpoints={["xxxl", "xxl", "xl", "lg", "md", "sm", "xs", "xxs"]}
-        minBreakpoint="xxs"
-      >
-        <Header />
-        <Container>
-          <Outlet />
-        </Container>
+      <GlobalStyles>
+        <ThemeProvider
+          breakpoints={["xxxl", "xxl", "xl", "lg", "md", "sm", "xs", "xxs"]}
+          minBreakpoint="xxs"
+        >
+          <Header />
+          <Container>
+            <Outlet />
+          </Container>
 
-        <Footer />
-      </ThemeProvider>
+          <Footer />
+        </ThemeProvider>
+      </GlobalStyles>
     </>
   );
 }

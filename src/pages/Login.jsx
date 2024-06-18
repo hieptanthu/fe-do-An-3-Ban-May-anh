@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import authApi from "../api/authApi";
 import Btn from "../components/common/btn"
 import { ToastContainer, toast } from 'react-toastify';
 import { Bounce } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
-
+import { accState } from "../constant/recoil";
+import { useRecoilState } from "recoil";
 
 function Login() {
   const navigate = useNavigate();
@@ -13,6 +14,12 @@ function Login() {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [acc,setAcc]=useRecoilState(accState)
+
+
+  useEffect(()=>{
+    setAcc({})
+  },[])
 
   async function loginCheck(e) {
     e.preventDefault();

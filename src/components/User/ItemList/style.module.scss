@@ -1,0 +1,49 @@
+.new__List-item {
+    // display: flex;
+    // justify-content: space-around;
+    padding: 10px;
+
+    width: 515px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0;
+    white-space: nowrap;
+    h1{
+        max-width: 100vh;
+    }
+    div {
+        max-width: 128vh;
+        float: left;
+        margin: auto;
+
+        p {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin: 0;
+            white-space: nowrap;
+        }
+
+        
+    }
+
+    .calendar{
+        margin-right: auto;
+    }
+
+    .product__title-name{
+        margin-left: 10px;
+    }
+
+
+
+
+}
+
+.new__List-item:hover {
+    background-color: #f7941d;
+
+    p {
+        color: #fff;
+    }
+    color: #fff;
+}

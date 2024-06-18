@@ -15,11 +15,21 @@ const axiosClient =axios.create({
 })
 
 axiosClient.interceptors.request.use(async (config) => {
+
+    const updatedHeaders = {
+        ...config.headers,
+        "Authorization": `Bearer ${getToken()}`,
+      };
+    
+      // Conditionally add the Content-Type header if it doesn't already exist
+      if (!config.headers['Content-Type']) {
+        updatedHeaders['Content-Type'] = 'application/json';
+      }
     return {
         ...config,
         headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${getToken()}`
+
+            "Authorization": `Bearer ${getToken()}`,  
         }
     };
 });
@@ -31,7 +41,7 @@ axiosClient.interceptors.response.use(response=>{
     if(!err.response){
         console.log(err.message=='Network Error')
 
-        return alert(err)
+        return alert(baseUrl)
     }
     throw err.response
 })

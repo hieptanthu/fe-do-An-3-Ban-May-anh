@@ -1,0 +1,15 @@
+.iframe-container {
+    position: relative; /* Để iframe bên trong có thể sử dụng position absolute */
+    width: 100%; /* Chiều rộng 100% của thẻ div */
+    height: 400px; /* Chiều cao tùy ý của thẻ div */
+    overflow: hidden; /* Ẩn phần dư thừa của iframe */
+  }
+  
+  .iframe-container iframe {
+    position: absolute; /* Đưa iframe ra khỏi luồng, ngay cả khi nó rộng hơn */
+    top: 0;
+    left: 0;
+    width: 100%; /* Chiều rộng 100% của iframe */
+    height: 100%; /* Chiều cao 100% của iframe */
+    border: none; /* Loại bỏ đường viền */
+  }

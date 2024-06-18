@@ -5,16 +5,27 @@ import { accState } from "../../constant/recoil";
 import { useRecoilState } from "recoil";
 import Loading from "../common/Loading";
 import Header from "./sections/admin/Header";
-import Footer from "./sections/admin/Footer";
-
+import Sidebar from "./sections/admin/Sidebar";
+import classNames from "classnames/bind"
+import style from './sections/admin/asset/style.scss'
+import { ToastContainer } from "react-toastify";
+const cx = classNames.bind(style)
 export default function AppLayout() {
   const navigate = useNavigate();
-  const [, setAcc] = useRecoilState(accState);
+  const [acc, setAcc] = useRecoilState(accState);
   const [loading, setLoading] = useState(true);
+
+  const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
+
+  const OpenSidebar = () => {
+    setOpenSidebarToggle(!openSidebarToggle);
+  };
 
   useEffect(() => {
     const checkAuth = async () => {
-      const user = await authUtils.isAuthenticated();
+      try{
+        const user = await authUtils.isAuthenticatedAdmin();
+      console.log("useradmin",user)
       setAcc(user.user);
       if (user === false) {
         // Use strict equality
@@ -22,6 +33,11 @@ export default function AppLayout() {
       } else {
         setLoading(false);
       }
+
+      }catch{
+        navigate("/login");
+      }
+      
     };
 
     checkAuth();
@@ -30,12 +46,16 @@ export default function AppLayout() {
   return loading ? (
     <Loading />
   ) : (
-    <>
-      <Header />
-      <div>
-        <Outlet />
-      </div>
-      <Footer />
+    <>  
+      <ToastContainer/>
+        <div className={cx("grid-container")}>
+          <Header OpenSidebar={OpenSidebar} />
+          <Sidebar
+            openSidebarToggle={openSidebarToggle}
+            OpenSidebar={OpenSidebar}
+          />
+          <Outlet />
+        </div>
     </>
   );
 }

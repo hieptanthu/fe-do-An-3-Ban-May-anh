@@ -8,7 +8,7 @@ const URl="/api/v1/TrendingItem/"
 
 const trendingItemApi = {
     get: () => axiosClient.get(URl),
-    put: (params) => axiosClient.put(URl+params._id, params),
+    put: (_id,params) => axiosClient.put(URl+_id, params),
     post: (params) => axiosClient.post(URl, params),
     delete: (_id) => axiosClient.delete(URl+_id)
 };

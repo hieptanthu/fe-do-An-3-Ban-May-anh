@@ -1,4 +1,4 @@
-import { atom } from 'recoil';
+import { atom,selector  } from 'recoil';
 
 export const newsState = atom({
   key: 'newsState',
@@ -37,6 +37,33 @@ export const TrademarkState = atom({
   key: 'TrademarkState',
   default: [],
 });
+
+
+export const socketState = atom({
+  key: 'socketState',
+  default: null, // Khởi tạo giá trị mặc định là null
+});
+
+
+export const ListUpDateCartState = atom({
+  key: 'ListUpDateCartState',
+  default:[]
+});
+
+
+export const ItemsCartState = atom({
+  key: 'ItemsCartState',
+  default:[]
+});
+
+
+export const ProductsChekOut = atom({
+  key: 'ProductsChekOut',
+  default:{}
+});
+
+
+
 
 
 

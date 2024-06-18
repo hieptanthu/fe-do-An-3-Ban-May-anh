@@ -6,6 +6,7 @@ import { faHeart, faCartShopping, faEye } from '@fortawesome/free-solid-svg-icon
 import classNames from 'classnames/bind';
 import { ProductLikeState } from '../../../constant/recoil';
 import { useRecoilState } from "recoil";
+import { Link } from 'react-router-dom';
 
 const cx = classNames.bind(style);
 
@@ -15,7 +16,7 @@ function CartProduct({ className = "col-xl-3 col-lg-4 col-md-4 col-12", id, prod
     const [ListHeart, SetListHeart] = useRecoilState(ProductLikeState);
 
     useEffect(() => {
-        const listSpLike = JSON.parse(localStorage.getItem("productLike")) ||[];
+        const listSpLike = JSON.parse(localStorage.getItem("productLike")||"[]") ;
         SetListHeart(listSpLike);
         SetHeart(ListHeart.includes(id));
 
@@ -42,25 +43,25 @@ function CartProduct({ className = "col-xl-3 col-lg-4 col-md-4 col-12", id, prod
         <div className={cx(className)}>
             <div className="single-product">
                 <div className="product-img">
-                    <a href="product-details.html">
+                    <Link to={"/Productdetails/"+id}>
                         <img className="default-img" src={Img1} alt={productName} />
                         <img className="hover-img" src={Img2} alt={productName} />
-                    </a>
+                    </Link>
                     <div className="button-head">
                         <div className="product-action">
-                            <a data-toggle="modal" data-target="#exampleModal" title="Quick View" href="#"><FontAwesomeIcon icon={faEye} /><span>Quick Shop</span></a>
+                        <Link to={"/Productdetails/"+id} data-toggle="modal" data-target="#exampleModal" title="Quick View" href="#"><FontAwesomeIcon icon={faEye} /><span>Quick Shop</span></Link>
                             <a title="Wishlist"
                                 style={{ color: Heart ? "#f6931d" : "inherit" }}
                                 href="#" onClick={toggleWishlist}><FontAwesomeIcon icon={faHeart} /><span>Add to Wishlist</span></a>
                             <a title="Compare" href="#"><FontAwesomeIcon icon={faCartShopping} /><span>Add to Compare</span></a>
                         </div>
                         <div className="product-action-2">
-                            <a title="Add to cart" href="#">Add to cart</a>
+                        <Link to={"/Productdetails/"+id} title="Add to cart" href="#">Add to cart</Link>
                         </div>
                     </div>
                 </div>
                 <div className="product-content">
-                    <h3><a href="product-details.html">{productName?productName:"errp"}</a></h3>
+                    <h3><Link to={"/Productdetails/"+id} >{productName?productName:"errp"}</Link></h3>
                     <div className="product-price">
                         <span>{Price?Price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") : null} VND</span>
                     </div>

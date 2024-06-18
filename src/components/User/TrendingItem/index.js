@@ -1,12 +1,12 @@
 import { Container, Row, Col } from 'react-bootstrap';
 import React, { useEffect, useState } from 'react';
-import style from './style.module.scss'
-import classNames from 'classnames/bind';
+
 import CartProduct from '../../common/CartProduct';
 import trendingItemApi from '../../../api/trendingItemApi';
 import productApi from '../../../api/productApi';
 import Loading from '../../../components/common/Loading';
-
+import style from './style.module.scss'
+import classNames from 'classnames/bind';
 const cx = classNames.bind(style)
 
 function TrendingItem() {

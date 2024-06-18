@@ -1,8 +1,10 @@
 import React from "react";
-import Spinner from 'react-bootstrap/Spinner';
+import Spinner from "react-bootstrap/Spinner";
 
 export default function Loading() {
   return (
-    <Spinner animation="border" />
+    <div style={{margin:"auto" ,textAlign:"center"}}>
+      <Spinner animation="border" />
+    </div>
   );
 }

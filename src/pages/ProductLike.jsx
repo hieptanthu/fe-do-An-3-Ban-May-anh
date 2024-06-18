@@ -6,9 +6,6 @@ import { ProductLikeState } from "../constant/recoil";
 import { useRecoilState } from "recoil";
 import Loading from "../components/common/Loading";
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
-
 function ProductLike() {
   const [listIdProduct, setlistIdProduct] = useRecoilState(ProductLikeState);
   const [Products, setProducts] = useState([]);

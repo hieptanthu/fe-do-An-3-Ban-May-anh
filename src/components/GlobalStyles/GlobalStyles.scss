@@ -1,5 +1,6 @@
 @import 'normalize.css';
 @import "../../../node_modules/bootstrap/scss/bootstrap";
+@import 'node_modules/font-awesome/scss/font-awesome.scss';
 // 5. Add additional custom code here
 
 :root {
@@ -8,16 +9,16 @@
   --body_color: black;
   --link_color: navy;
   --main-color: #F7941D;
-  
-  --btn-white-color:white;
-  --btn-black-color:black;
 
- 
-  
-  --primary-color:#0d6efd;
-  --success-color:#198754;
-  --warning-color:#ffc107;
-  --danger-color:#dc3545;
+  --btn-white-color: white;
+  --btn-black-color: black;
+
+
+
+  --primary-color: #0d6efd;
+  --success-color: #198754;
+  --warning-color: #ffc107;
+  --danger-color: #dc3545;
 
 
 
@@ -41,13 +42,24 @@
 }
 
 
-a{
-  color:  var(--body_color);
+a {
+  color: var(--body_color);
 }
 
 
-.MainColor{
+.MainColor {
   color: var(--main-color);
+}
+
+
+.list-group{
+  li.active{
+    background-color: #0d6efd;
+    color: #fff;
+    padding-left: 20px;
+  }
+  
+  
 }
 
 
@@ -64,8 +76,7 @@ a{
 
 
 .mainLogin {
-  margin:  10% auto
-
+  margin: 10% auto
 }
 
 .mainLogin>.main {
@@ -159,11 +170,71 @@ a{
   font-size: 1rem;
   font-weight: bold;
 }
-a{
+
+a {
   text-decoration: none;
 }
 
 
+#similar-product .carousel-inner .item img {
+  display: inline-block;
+  margin-left: 15px;
+}
+
+
+/* Định dạng các phần tử của trang phân trang */
+.Pagination {
+  margin-top: 30px;
+
+  ul {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+
+    li a {
+      padding: 15px;
+    }
+
+    li:hover {
+      background-color: #939599;
+      color: #fff;
+
+      a {
+        color: #fff;
+      }
+    }
+  }
+
+}
+
+
+.ProductImg {
+  display: flex;
+
+  li {
+    margin: 10px;
+  }
+}
+
+
+.modal {
+
+  --bs-modal-width: 84%;
+}
+
+.list-group-item + .list-group-item {
+  border-top-width: 1px;
+}
 
 
 
+.Pagination ul  .selected {
+  background-color: #939599;
+  color: #fff;
+}
+
+
+.fa-solid .fa-star .active{
+
+  color: #ffc107;
+}
